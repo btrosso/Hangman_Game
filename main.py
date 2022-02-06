@@ -1,51 +1,51 @@
 #Step 1 
 import random
+from hangman_words import word_list
+from hangman_art import logo, stages
 
-word_list = ["aardvark", "baboon", "camel"]
-
-#TODO-1 - Randomly choose a word from the word_list and assign it to a variable called chosen_word.
+end_of_game = False
 word_choice = list(random.choice(word_list))
-print(word_choice)
+word_length = len(word_choice)
+lives = 6
+
+print(logo)
 
 #Testing code
-print(f'Pssst, the solution is {word_choice}.')
+#print(f'Pssst, the solution is {word_choice}.')
 
-#TODO-4: - Create an empty List called display.
-#For each letter in the chosen_word, add a "_" to 'display'.
-#So if the chosen_word was "apple", display should be ["_", "_", "_", "_", "_"] with 5 "_" representing each letter to guess.
+# Create the blanks
 display = []
 for char in word_choice:
     display.append("_")
 
 print(display)
-#TODO-2 - Ask the user to guess a letter and assign their answer to a variable called guess. Make guess lowercase.
-guess = input("Guess a letter: ").lower()
-print(guess)
 
-#TODO-3 - Check if the letter the user guessed (guess) is one of the letters in the chosen_word.
-# 3rd attempt - 4 lines better than 1st attempt
-# 2nd attempt used a count variable
-#TODO-5: - Loop through each position in the chosen_word;
-#If the letter at that position matches 'guess' then reveal that letter in the display at that position.
-#e.g. If the user guessed "p" and the chosen word was "apple", then display should be ["_", "p", "p", "_", "_"].
-for position in range(len(word_choice)):
-    letter = word_choice[position]
-    if letter == guess:
-        display[position] = guess
+while not end_of_game:
+    # get a guess from the user
+    guess = input("Guess a letter: ").lower()
 
-# 1st attempt no hint - works but could be more 
-# efficiently written
-# word_choice_len = len(word_choice)
-# print(word_choice_len)
-# count = 0
-# while count < word_choice_len:
-#     if guess == word_choice[count]:
-#         print("Right")
-#     else:
-#         print("Wrong")
-#     count += 1
+    if guess in display:
+        print(f"You have already chosen the letter: {guess}.\nPlease choose another letter.")
 
-#TODO-6: - Print 'display' and you should see the guessed letter in the correct position and every other letter replace with "_".
-#Hint - Don't worry about getting the user to guess the next letter. We'll tackle that in step 3.
+    # check the guess against the word choice
+    if guess in word_choice:
+        for position in range(word_length):
+            letter = word_choice[position]
+            if letter == guess:
+                display[position] = guess
 
-print(display)
+    #Join all the elements in the list and turn it into a String.
+    print(f"{' '.join(display)}")
+
+    if "_" not in display:
+        end_of_game = True
+        print("You win!")
+    
+    if guess not in word_choice:
+        print(f"The letter '{guess}'' is not in the word.")
+        lives -= 1
+        if lives == 0:
+            end_of_game == True
+            print("You lose.")
+
+    print(stages[lives])
