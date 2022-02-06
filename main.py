@@ -28,14 +28,10 @@ print(guess)
 #TODO-5: - Loop through each position in the chosen_word;
 #If the letter at that position matches 'guess' then reveal that letter in the display at that position.
 #e.g. If the user guessed "p" and the chosen word was "apple", then display should be ["_", "p", "p", "_", "_"].
-count = 0
-for char in word_choice:
-    if char == guess:
-        print("Right")
-        display[count] = guess
-    else:
-        print("Wrong")
-    count += 1
+for position in range(len(word_choice)):
+    letter = word_choice[position]
+    if letter == guess:
+        display[position] = guess
 
 # 1st attempt no hint - works but could be more 
 # efficiently written
